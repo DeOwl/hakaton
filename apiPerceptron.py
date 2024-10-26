@@ -22,6 +22,3 @@ def perceptronAPI(hours_studied : int,
          physical_activity,
          home_distance
          ]]), synaptic_weights))
-
-print("!!!!", perceptronAPI(40, 84, 7, 3, 'Near'))
-print("@@@", perceptronAPI(23, 84, 7, 3, 'Near'))
