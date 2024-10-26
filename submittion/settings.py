@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'main_app',
 ]
 
 MIDDLEWARE = [
@@ -73,16 +74,16 @@ WSGI_APPLICATION = 'submittion.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'hakaton', # Имя вашей БД. Если вы создали черезе psql или IDE свою базу и хотите использовать его - пропишите его имя здесь
-        'USER': 'student',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': 5432, # Стандартный порт PostgreSQL
-    }
-}
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'hakaton', # Имя вашей БД. Если вы создали черезе psql или IDE свою базу и хотите использовать его - пропишите его имя здесь
+#        'USER': 'student',
+#        'PASSWORD': 'root',
+#        'HOST': 'localhost',
+#        'PORT': 5432, # Стандартный порт PostgreSQL
+#    }
+#}
 
 
 # Password validation
@@ -119,8 +120,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/hakaton/static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 

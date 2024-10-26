@@ -1,104 +1,18 @@
+{% load static %}
+{% include 'header.html' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Анализ успеваемости</title>
-    <style>
-        *{
-            font-family: 'Neucha', cursive;
-        }
-        body {
-            background-color: #E9ECEF;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            
-        }
-        
-        .container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 20px;
-            justify-items: center;
-            align-items: center;
-        }
-        
-        .card {
-            background-color:  #ADE8F4;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-            width: 250px;
-            text-align: center;
-            margin-top: 10px; 
-        }
-        
-        
-        h1 {
-            font-size: 40px;
-            color: #03045E;
-            margin-bottom: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .title {
-            font-size: 24px; 
-            color: #03045E; 
-            margin-bottom: 10px; 
-        }
-
-        .button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #03045E; 
-            color: white; 
-            border: none;
-            border-radius: 5px; 
-            cursor: pointer;
-            font-size: 16px; 
-        }
-        .card-res {
-            background-color:  #03045E;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-            width: 250px;
-            text-align: center;
-            margin-top: 10px; 
-        }
-        .title-res {
-            font-size: 24px; 
-            color: #ffffff;
-            margin-bottom: 10px; 
-        }
-        
-        input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            box-sizing: border-box;
-            text-align: center;
-        }
-        .selector{
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            box-sizing: border-box;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Neucha&display=swap" rel="stylesheet">
     
 </head>
 <body>
-    <h1>Анализ успеваемости</h1>
     <form action="." method="GET" style="margin-right:2%; display: flex; flex-direction: column; align-items: center;">
         <div class="container">
             <div class="card">
