@@ -12,7 +12,7 @@ def perceptronAPI(hours_studied : int,
     attendance = attendance / 100
     sleep_hours = abs(7 - sleep_hours) / 3
     physical_activity = physical_activity / 6
-    home_distance = 0.0 if home_distance == 'Near' else 0.5 if home_distance == 'Moderate' else 1.0
+    home_distance = 0.0 if home_distance == b'Near' else 0.5 if home_distance == b'Moderate' else 1.0
     home_distance = home_distance / 3
     # вывод
     return sigmoid(np.dot(np.array([
