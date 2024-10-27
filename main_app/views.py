@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from main_app.apiPerceptron import perceptronAPI, get_result_for_subject
+from main_app.apiPerceptron import perceptronAPI, get_result_for_subject, get_graph_from_data
 from main_app.models import subject_model, week_model
 
 #Функция, производящая расчет прогнозируемой оценки при помощи обученного парцептрона
@@ -51,7 +51,7 @@ def user_ratePrediction(request):
     # get_sugjects by user_id из таблицы Subjects 
     # TODO
     
-# страница предметов
+# страница юзера
 def get_subjects(request, id: int):
     subjects = subject_model.objects.filter(user_id=id)
     subjects_results = []
@@ -70,7 +70,6 @@ def get_subjects(request, id: int):
         count_lessons_of_subject = subject.count_lessons
 
         result = get_result_for_subject(sleep_data, physical_activity_data, lessons_data, time_data, count_weeks_of_subject, count_lessons_of_subject)
-        print("111" + str(result))
         subjects_results.append({'subject': subject, 'result': result})
     
     return render(request, 'user_page.html', {
@@ -78,30 +77,31 @@ def get_subjects(request, id: int):
         'subjects_results': subjects_results}
         )
     
-    # страница недель
+    # страница предметов
 def get_weeks(request, subject_id: int):
     weeks = week_model.objects.filter(subject_id=subject_id)
-    return render(request, 'weeks_page.html', {'weeks': weeks})
+    return render(request, 'subject_page.html', {'weeks': weeks})
     
-    # создать предмет
+    # создать предмет с редиректом на юзера
 def post_subject(request, user_id: int, subject_name: str):
     subject_model.objects.create(user_id=user_id, subject_name=subject_name, num_weeks=0, num_lessons=0)
-    return render(request, 'subjects')
+    return redirect('user_page.html')
     
-    # update_subject в таблице Subjects + редирект
+    # обновить предмет с редиректом на юзера
 def update_subject(subject_id: int, subject_name: str):
     subject = subject_model.objects.get(id=subject_id)
     subject.subject_name = subject_name
     subject.save()
     return redirect('user_page.html')
     
-# delete_subject в таблице Subjects
+# удалить предмет с редиректом на юзера
 def delete_subject(subject_id: int):
     week_model.objects.filter(subject_id=subject_id).delete()
     subject_model.objects.get(id=subject_id).delete()
+    return redirect('user_page.html')
         
 
-# post_week в таблицу Weeks + редирект
+# создать неделю с редиректом на предмет
 def post_week(subject_id: int, 
               week_name: str,
               week_number: int,
@@ -113,9 +113,9 @@ def post_week(subject_id: int,
                     week_number=week_number, avg_sleep_hours=avg_sleep_hours, 
                     avg_physical_activity=avg_physical_activity, lessons_visited=lessons_visited, 
                     time_spent=time_spent)
-    return redirect('weeks')
+    return redirect('subject_page.html')
     
-    # update_week в таблице Weeks + редирект
+    # обновить неделю с редиректом на предмет
 def update_week(week_id: int, week_name: str, week_number: int, avg_sleep_hours: int, avg_physical_activity: int, lessons_visited: int, time_spent: int):
     week = week_model.objects.get(id=week_id)
     week.week_name = week_name
@@ -125,11 +125,12 @@ def update_week(week_id: int, week_name: str, week_number: int, avg_sleep_hours:
     week.lessons_visited = lessons_visited
     week.time_spent = time_spent
     week.save()
-    return redirect('weeks')
+    return redirect('subject_page.html')
     
-    # delete_week в таблице Weeks
+    # удалить неделю с редиректом на предмет
 def delete_week(week_id: int):
     week_model.objects.get(id=week_id).delete()
+    return redirect('subject_page.html')
 
     
     
