@@ -17,20 +17,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from main_app.views import ratePrediction, get_subjects, get_weeks, post_subject, update_subject, delete_subject, post_week
-from main_app.views import ratePrediction, user_ratePrediction, auth_ratePrediction, reg_ratePrediction
-
+from main_app.views import ratePrediction, user_ratePrediction, Login_User, logout_user, auth_ratePrediction, reg_ratePrediction
+from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', ratePrediction, name='mainForm'),
-    path('auth/', auth_ratePrediction, name='aForm'),
-    path('reg/', reg_ratePrediction, name='rForm'),
-    path('weeks/', get_weeks, name='weeks'),
-    path('post_subject/', post_subject, name='post_subject'),
+    path('auth/', csrf_exempt(auth_ratePrediction), name='aForm'),
+    path('login_user/', csrf_exempt(Login_User), name='lForm'),
+    path('logout/', csrf_exempt(logout_user), name='logoutForm'),
+    path('reg/', csrf_exempt(reg_ratePrediction), name='rForm'),
+    path('weeks/<int:subject_id>', get_weeks, name='weeks'),
+    path('user/<int:user_id>/post_subject/', csrf_exempt(post_subject), name='post_subject'),
     path('update_subject/', update_subject, name='update_subject'),
     path('delete_subject/', delete_subject, name='delete_subject'),
-    path('post_week/', post_week, name='post_week'),
-    path('userPrev/', user_ratePrediction, name='uForm'),
-    path('user/<int:id>', get_subjects, name='userSubjects'),
+    path('post_week/<subject_id>', csrf_exempt(post_week), name='post_week'),
+    path('user/<int:id>', get_subjects, name='uForm'),
 
 ]

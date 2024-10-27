@@ -31,36 +31,33 @@
                 <div class="title">Физическая активность</div>
                 <input name="physical_activity" type="number" value="{{data.physical_activity}}" min = "0" max = "12" required>
             </div>
-            <div class="card">
-                <div class="title">Расстояние от дома</div>
-                <select name="home_distance" class="selector" selected="{{data.home_distance}}">
-                    <option value="near" {% if data.home_distance == 'near' %} selected {%endif%}>Близко</option>
-                    <option value="moderate" {% if data.home_distance == 'moderate' %} selected {%endif%}>Средне</option>
-                    <option value="far" {% if data.home_distance == 'far' %} selected {%endif%}>Далеко</option>
-                </select>
-            </div>
         </div>
         <input type="submit" value="Рассчитать" class="button">
     </form>
     <div class="card-res" id="ratingCard">
         <div class="title-res">Прогнозируемый результат:</div>
         <div class="title-res" id="ratingValue">{{data.PredictedRating}}</div>
-      </div>
+    </div>
       
-      <script>
+    <script>
+      window.onload = function() { 
         const ratingCard = document.getElementById('ratingCard');
         const ratingValue = document.getElementById('ratingValue');
         const rating = parseFloat(ratingValue.textContent); 
-      
+    
         if (rating >= 75) {
           ratingCard.style.backgroundColor = '#4CAF50'; // Green
         } else if (rating >= 55) {
           ratingCard.style.backgroundColor = '#FFC107'; // Yellow
+        } else if (rating == 0) {
+          ratingCard.style.backgroundColor = '#ced4da'; // Grey
         } else {
           ratingCard.style.backgroundColor = '#F44336'; // Red
         }
-      </script>
-      
+      };
+    </script>
+    
+  
       
 </body>
 </html>

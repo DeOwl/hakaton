@@ -4,10 +4,19 @@
     <a href = "/" style ="width: 10vw;">
       <img src = "{% static 'logo.png' %}" style="height: 10vh; margin-top:1.5vh; margin-bottom:1.5vh;  margin-left:3vw">
     </a>
-    <div class="app_name"  style="margin-top:2vh; margin-left: auto; margin-right: auto;">{{ app_title }}</div>
-    <a href = "auth/" style ="width: 10vw;">
-        <img src = "{% static 'logo.png' %}" style="height: 10vh; margin-top:1.5vh; margin-bottom:1.5vh;  margin-right:3vw">
+    <div class="app_name"  style="margin-top:3vh; margin-left: auto; margin-right: auto;">{{ app_title }}</div>
+
+    {% if user is not None %}
+    <a href = "/logout" style ="width: 10vw; margin-top:1.8vh; margin-right:0.1vw;" >
+      <input style="background-color: #264653; margin-left: 0px; " type="submit" value="Выйти" class="button">
     </a>
+    <a href = {% url "uForm" user.id %} style ="width: 10vw; margin-right:2vw; margin-left:0px; margin-top:1.8vh">
+      <input style="background-color: #264653; margin-left: 0px;" type="submit" value="Предметы" class="button">
+    </a>
+    {% else %}
+    <a href = "auth/" style ="width: 10vw; margin-right:2vw; margin-left:0px; margin-top:1.8vh">
+      <input style="background-color: #264653; margin-left: 10px;margin-right:0px;" type="submit" value="Войти" class="button">
+    </a>
+    {% endif %}
 </div>
 {% endblock %}
-

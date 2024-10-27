@@ -14,56 +14,69 @@
 </head>
 
 <body>
-  <form action="." method="GET" style="display: flex; justify-content: center; align-items: center;">
+  <form method="POST" action="{% url 'post_subject' user.id%}" style="display: flex; justify-content: center; align-items: center;">
     <div class="container-sub">
       
       <div class="card-sub">
-        <div style="display: flex; align-items: center;"> 
-                <input style="margin-left: 10px;" class="title-res" type="text" placeholder="Предмет">
-                <input class="sub-des" class="title-res" type="number" placeholder="Количество пар">
-            <input style="background-color: #264653;  margin-left: 80px;" type="submit" value="Добавить предмет" class="button">
+        <div style="display: flex; align-items: center; flex-direction:row; width:90%; margin-left:5%;margin-right:5%;"> 
+            <input style="width: 200px; margin-left:auto;margin-right:auto;" name="title" class="sub-in" type="text" placeholder="Предмет" required>
+            <input style="width: 200px;margin-left:auto;margin-right:auto;" name="count_lessons" class="sub-in" class="title" type="number" placeholder="Пары" required>
+            <input style="width: 200px;margin-left:auto;margin-right:auto;" name="count_weeks" class="sub-in" class="title" type="number" placeholder="Недели" required>
+            <input style="background-color: #264653; margin-left:auto;margin-right:auto; align-content:center; margin-top:0px;" type="submit" value="✅" class="button">
         </div>
-    </div>    
-      <div class="card-sub">
-          <div style="display: flex; align-items: center;"> 
-              <div style="margin-left: 10px;"class="title-res">Предмет 1</div> 
-              <div class="sub-des">Пар: 18</div> 
-              <div class="sub-des">Недель: 7</div> 
-              <a href = "{% url 'weeks' %}">
-                <input style="background-color: #264653;  margin-left: 100px;" type="submit" value="Cтатистика" class="button">
-              </a>
-              
-              <div style="background-color: #4FBF9F; height: 50px; width: 50px; margin-left: 100px;" class="card-res" id="ratingCard">
-                  <div class="title-res" id="ratingValue">{{ data.PredictedRating }}</div>
-              </div>
-          </div>
-      </div>
-      <div class="card-sub">
-        <div style="display: flex; align-items: center;"> 
-            <div style="margin-left: 10px;"class="title-res">Предмет 2</div> 
-            <div class="sub-des">Пар: 36</div> 
-            <div class="sub-des">Недель: 5</div> 
-            <input style="background-color: #264653;  margin-left: 100px;" type="submit" value="Cтатистика" class="button">
-            <div style="background-color: #4FBF9F; height: 50px; width: 50px; margin-left: 100px;" class="card-res" id="ratingCard">
-                <div class="title-res" id="ratingValue">{{ data.PredictedRating }}</div>
-            </div>
-        </div>
-    </div>
-  </div>
-</form>
-      <script>
-        const ratingCard = document.getElementById('ratingCard');
-        const ratingValue = document.getElementById('ratingValue');
-        const rating = parseFloat(ratingValue.textContent); 
+      </div>  
       
-        if (rating >= 75) {
-          ratingCard.style.backgroundColor = '#4CAF50'; // Green
-        } else if (rating >= 55) {
-          ratingCard.style.backgroundColor = '#FFC107'; // Yellow
-        } else {
-          ratingCard.style.backgroundColor = '#F44336'; // Red
-        }
-      </script>
+    </div>
+  </form>
+  <div class="container-sub">
+    {%for i in subjects_results %}
+    <div class="card-sub">
+      <div style="display: flex; align-items: center; flex-direction:row; width:90%; margin-left:5%;margin-right:5%;"> 
+        <div  style="margin-left: 10px; text-align:center; margin-left:0px;" class="sub-des">{{i.subject.subject_name}}</div> 
+        <div class="sub-des">Пар: {{i.subject.count_lessons}}</div> 
+        <div class="sub-des">Недель: {{i.subject.count_weeks}}</div> 
+        <a href = "{% url 'weeks' i.subject.subject_id %}">
+          <input style="background-color: #264653;  margin-left: 0px; margin-top:0px;" type="submit" value="Cтатистика" class="button">
+        </a>
+        <div style="height: 50px; width: 50px; margin-left:40px; margin-top:0;" class="card-res" id="ratingCard{{i.subject.subject_id}}">
+            <div class="title-res" id="ratingValue{{i.subject.subject_id}}" style="margin-bottom:0px;">{{ i.result }}</div>
+        </div>
+        <div style="display: flex; gap: 10px;  margin-top: 0px;">
+          <input style="background-color: #264653;width: 60px;margin-left: 20px; margin-top:0px;" type="submit;" value="❌" class="button">
+          <input style="background-color: #264653;width: 60px;margin-left: 10px; margin-top:0px;" type="submit;" value="✏️" class="button">
+        </div>
+      </div>
+    </div>
+
+    <script>
+      window.onload = function() { 
+        const ratingCards = document.querySelectorAll('.card-res');
+        ratingCards.forEach(card => {
+          const ratingValue = card.querySelector('.title-res').textContent;
+          const rating = parseFloat(ratingValue); 
+    
+          if (rating >= 75) {
+            card.style.backgroundColor = '#4CAF50'; // Green
+          } else if (rating >= 55) {
+            card.style.backgroundColor = '#FFC107'; // Yellow
+          } else if (rating == 0) {
+            card.style.backgroundColor = '#ced4da'; // Grey
+          } else {
+            card.style.backgroundColor = '#F44336'; // Red
+          }
+        });
+      };
+    </script>
+    
+  {% endfor %} 
+  </div>
+
+
+  </div>
+
+  
+  
+  
 </body>
 </html>
 

@@ -30,9 +30,3 @@ class week_model(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['week_num', 'subject_id'], name='unique item in plant')
         ]
-
-#class user_model(models.Model):
-#    id = models.AutoField(primary_key=True)
-#    class Meta:
-#        managed = False
- #       db_table = 'auth_user'

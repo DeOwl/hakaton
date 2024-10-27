@@ -1,5 +1,9 @@
 import numpy as np
+import time
 from numpy import genfromtxt
+
+
+start_time = time.time()
 
 _data = genfromtxt('dataset1.csv', delimiter=';', skip_header=True, 
                      converters={0: lambda x: float(x) / 24, # часы учебы
@@ -36,7 +40,8 @@ for i in range(10000):
     adjustment = np.dot(input_layer.T, err * (outputs * (1 - outputs)))
     synaptic_weights += adjustment
     
-print(err.std() ** 0.5)
+
+
     
 new_outputs = sigmoid(np.dot(training_inputs, synaptic_weights))
 
@@ -45,5 +50,8 @@ print(synaptic_weights)
 print(training_outputs[0 : 10])
 print(new_outputs[0 : 10])
 
+print("Среднеквадратическое отклонение:", err.std() ** 0.5)
+print("Средняя ошибка:", np.absolute(err).mean())
 
+print("Время работы:", time.time() - start_time, "seconds")
 

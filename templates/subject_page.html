@@ -1,5 +1,5 @@
 {% load static %}
-{% include 'header.html' with app_title='Предмет 1' %}
+{% include 'header.html' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,34 +14,63 @@
 </head>
 
 <body>
-  <form action="." method="GET" style="display: flex; justify-content: center; align-items: center;">
+  <form action={% url 'uForm' user.id %} method="GET" style="display: flex; justify-content: center; align-items: center;">
+    <input style="background-color: #264653; margin-left: 10px;" type="submit" value="Назад" class="button">
+  </form>
+  <form method="POST" action="{% url 'post_week' subject_id%}" style="display: flex; justify-content: center; align-items: center;">
     <div class="container-sub">
       <div class="card-sub">
-          <div style="display: flex; align-items: center;"> 
-              <div style="margin-left: 10px;"class="title-res">Предмет 1</div> 
-              <div class="sub-des">Пар: 18</div> 
-              <div class="sub-des">Недель: 7</div> 
-              <input style="background-color: #264653;  margin-left: 100px;" type="submit" value="Cтатистика" class="button">
-              <div style="background-color: #4FBF9F; height: 50px; width: 50px; margin-left: 100px;" class="card-res" id="ratingCard">
-                  <div class="title-res" id="ratingValue">{{ data.PredictedRating }}</div>
+        <div style="display: flex; align-items: center;"> 
+          <input style="width: 130px;margin-left: 10px;" name="week_num" class="sub-in" type="text" placeholder="Номер" required>
+            <input style="width: 185px;margin-left: 10px;" name="time_spent" class="sub-in" type="text" placeholder="Часы занятий" required>
+            <input style="width: 185px;margin-left: 10px;"name="lessons_visited" class="sub-in" type="text" placeholder="Посещаемость" required>
+            <input style="width: 150px;margin-left: 10px;"name="sleep_timeme" class="sub-in"  type="text" placeholder="Часы сна" required>
+            <input style="width: 185px;margin-left: 10px;"name="avg_phys_activity" class="sub-in" type="nutextber" placeholder="Физ активность" required>
+            <input style="background-color: #264653;  margin-left: 20px; margin-top:-3px" type="submit" value="✅" class="button">
+          </div>
+      </div>  
+      
+    </div>
+  </form>
+  
+    <div class="container-sub">
+      {% for i in weeks %}
+          <div class="card-sub" style="margin-bottom:2vh;align-content:center;">
+              <div style="display: flex; align-items: center; width:96%; margin-left:2%;  margin-right:2%;"> 
+                  <div style="width: 10px;margin-left: 0px; margin-right: auto; box-sizing:content-box;" class="sub-des">№{{i.week_num}}</div> 
+                  <div style="margin-left: auto; margin-right: auto; box-sizing:content-box;"class="sub-des">Часы занятий: {{i.time_spent}}</div> 
+                  <div style="margin-left: auto; margin-right: auto; display: flex;width:160px;"class="sub-des">Посещаемость: {{i.lessons_visited}} / {{lesson_count}}</div> 
+                  <div style="margin-left: auto; margin-right: auto; box-sizing:content-box;"class="sub-des">Часы сна: {{i.avg_sleep}}</div> 
+                  <div style="width: 160px;margin-left: auto; margin-right: auto;"class="sub-des">Физическая активность: {{i.avg_phys_activity}}</div> 
+                  <div style="display: flex; gap:10px">
+                    <input style="background-color: #264653;width: 60px;margin-left: 10px; margin-top:0px;" type="submit;" value="❌" class="button">
+                    <input style="background-color: #264653;width: 60px;margin-left: 10px;  margin-top:0px;" type="submit;" value="✏️" class="button">
+                  </div>
               </div>
           </div>
-      </div>
+        </div>
+          
+          
+      {% endfor %}
+        </div>
+        <div class="container-sub">
+        {% if graph_time %}
+        <div class="title">Часы занятий</div>
+          <div>{{graph_time|safe}}</div>
+        {% endif %}
+        {% if graph_les %}
+        <div class="title">Посещаемость</div>
+          <div>{{graph_les|safe}}</div>
+        {% endif %}
+        {% if graph_sl %}
+        <div class="title">Часы сна</div>
+          <div>{{graph_sl|safe}}</div>
+        {% endif %}
+        {% if graph_phys %}
+        <div class="title">Физическая активность</div>
+          <div>{{graph_phys|safe}}</div>
+        {% endif %}
+        </div>
     </div>
-  </div>
-</form>
-      <script>
-        const ratingCard = document.getElementById('ratingCard');
-        const ratingValue = document.getElementById('ratingValue');
-        const rating = parseFloat(ratingValue.textContent); 
-      
-        if (rating >= 75) {
-          ratingCard.style.backgroundColor = '#4CAF50'; // Green
-        } else if (rating >= 55) {
-          ratingCard.style.backgroundColor = '#FFC107'; // Yellow
-        } else {
-          ratingCard.style.backgroundColor = '#F44336'; // Red
-        }
-      </script>
 </body>
 </html>
