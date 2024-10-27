@@ -1,0 +1,71 @@
+{% load static %}
+{% include 'header.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анализ успеваемости</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <input type="submit" value="Ввести" class="button-user">
+        <input type="submit" value="Мои данные" class="button-user">
+      </div>
+    <form action="." method="GET" style="margin-right:2%; display: flex; flex-direction: column; align-items: center;">
+        <div class="container">
+            <div class="card">
+                <div class="title">Часы занятий</div>
+                <input name="hours_studied" type="number" value="{{data.hours_studied}}" min = "0" max="50" required>
+            </div>
+            <div class="card">
+                <div class="title">Посещаемость</div>
+                <input name="attendance" type="number" value="{{data.attendance}}" min = "0" max = "100" required>
+            </div>
+            <div class="card">
+                <div class="title">Часы сна</div>
+                <input name="sleep_hours" type="number" value="{{data.sleep_hours}}" min = "0" max = "24" required>
+            </div>
+            <div class="card">
+                <div class="title">Физическая активность</div>
+                <input name="physical_activity" type="number" value="{{data.physical_activity}}" min = "0" max = "12" required>
+            </div>
+            <div class="card">
+                <div class="title">Расстояние от дома</div>
+                <select name="home_distance" class="selector" selected="{{data.home_distance}}">
+                    <option value="near" {% if data.home_distance == 'near' %} selected {%endif%}>Близко</option>
+                    <option value="moderate" {% if data.home_distance == 'moderate' %} selected {%endif%}>Средне</option>
+                    <option value="far" {% if data.home_distance == 'far' %} selected {%endif%}>Далеко</option>
+                </select>
+            </div>
+        </div>
+        <input type="submit" value="Рассчитать" class="button">
+    </form>
+    <div class="card-res" id="ratingCard">
+        <div class="title-res">Прогнозируемый результат:</div>
+        <div class="title-res" id="ratingValue">{{data.PredictedRating}}</div>
+      </div>
+      
+      <script>
+        const ratingCard = document.getElementById('ratingCard');
+        const ratingValue = document.getElementById('ratingValue');
+        const rating = parseFloat(ratingValue.textContent); 
+      
+        if (rating >= 75) {
+          ratingCard.style.backgroundColor = '#4CAF50'; // Green
+        } else if (rating >= 55) {
+          ratingCard.style.backgroundColor = '#FFC107'; // Yellow
+        } else {
+          ratingCard.style.backgroundColor = '#F44336'; // Red
+        }
+      </script>
+</body>
+</html>
+
+
+
