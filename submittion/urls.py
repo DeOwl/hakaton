@@ -16,16 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+
 from main_app.views import ratePrediction, get_subjects, get_weeks, post_subject, update_subject, delete_subject, post_week
+from main_app.views import ratePrediction, user_ratePrediction
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', ratePrediction, name='mainForm'),
-    path('subjects/', get_subjects, name='subjects'),
     path('weeks/', get_weeks, name='weeks'),
     path('post_subject/', post_subject, name='post_subject'),
     path('update_subject/', update_subject, name='update_subject'),
     path('delete_subject/', delete_subject, name='delete_subject'),
     path('post_week/', post_week, name='post_week'),
-    
+    path('user/', get_subjects, name='userSubjects'),
 ]
