@@ -1,0 +1,38 @@
+{% load static %}
+{% include 'header.html' with app_title='Авторизация'%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates&display=swap" rel="stylesheet">
+    
+</head>
+
+<body>
+
+    <div class="card">
+        <div class="title">ЛогинF</div>
+        <input name="" type="text" value="{{ data. }}" required>
+        <div class="title">Пароль</div>
+        <input name="" type="password" value="{{ data. }}" required> 
+      </div>
+      
+      
+      <div style="display: flex;">
+        <a href = "{% url 'rForm' %}" style ="width: 10vw;">
+          <input style="background-color: #264653;" type="submit" value="Я новенький" class="button">
+      </a>
+      <a href = "{% url 'uForm' %}" style ="width: 10vw;">
+        <input style="background-color: #264653; margin-left: 10px;" type="submit" value="Я уже смешарик" class="button">
+    </a>
+        
+      </div>
+      
+      
+</body>
+</html>

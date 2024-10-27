@@ -16,10 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from main_app.views import ratePrediction, user_ratePrediction
-
+from main_app.views import ratePrediction, user_ratePrediction,  auth_ratePrediction, reg_ratePrediction, sub_ratePrediction
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', ratePrediction, name='mainForm'),
-    path('user/', user_ratePrediction, name='userForm'),
+    path('user/', user_ratePrediction, name='uForm'),
+    path('auth/', auth_ratePrediction, name='aForm'),
+    path('reg/', reg_ratePrediction, name='rForm'),
+    path('sub/', sub_ratePrediction, name='sForm'),
 ]

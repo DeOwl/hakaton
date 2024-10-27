@@ -18,8 +18,14 @@
     justify-items: center;
     align-items: center;
    }
+   .container-sub {
+    display: grid;
+    gap: 20px;
+    justify-items: center;
+    align-items: center;
+   }
    
-   .card, .card-res {
+   .card, .card-res{
     background-color: #4FBF9F;
     padding: 20px;
     border-radius: 10px;
@@ -33,9 +39,16 @@
     justify-content: center;
     align-items: center;
    }
-   .card-res {
-    background-color: #e76f51;
-   }
+   .card-sub {
+    background-color: #4FBF9F;
+    height: 120px;
+    width: 1000px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between;
+  }
 
    .app_name {
     font-size: 40px;
@@ -45,7 +58,6 @@
     box-sizing: content-box;
    }
    
-   
    .title, .title-res {
     font-size: 24px; 
     color: #264653; 
@@ -54,6 +66,13 @@
    }
    .title-res {
     color: #ffffff;
+   }
+   .sub-des{
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: bold; 
+    margin-bottom: 10px; 
+    margin-left: 100px;
    }
    .button {
     margin-top: 20px;
@@ -74,7 +93,6 @@
     border-radius: 5px; 
     cursor: pointer;
     font-size: 30px; 
-    
    }
 
    input[type="number"] {
