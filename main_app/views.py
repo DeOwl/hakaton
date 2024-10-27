@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from main_app.apiPerceptron import perceptronAPI, get_result_for_subject
 from main_app.models import subject_model, week_model
 
@@ -62,6 +62,11 @@ def get_subjects(request, id: int):
     subjects_results = []
     for subject in subjects:
         weeks_data = week_model.objects.filter(subject=subject).all()
+        count_weeks = len(weeks_data)
+        # если недель нет, то нет результата
+        if count_weeks == 0:
+            subjects_results.append({'subject': subject, 'result': 0})
+            continue
         sleep_data = [(x.week_num, x.avg_sleep) for x in weeks_data]
         physical_activity_data = [(x.week_num, x.avg_phys_activity) for x in weeks_data]
         lessons_data = [(x.week_num, x.lessons_visited) for x in weeks_data]
@@ -75,14 +80,15 @@ def get_subjects(request, id: int):
     
     return render(request, 'user_page.html', {
         'subjects': subjects,
-        'subjects_results': subjects_results})
+        'subjects_results': subjects_results}
+        )
     
-    # get_weeks by subject_id из таблицы Weeks
+    # страница недель
 def get_weeks(request, subject_id: int):
     weeks = week_model.objects.filter(subject_id=subject_id)
     return render(request, 'weeks_page.html', {'weeks': weeks})
     
-    # post_subject в таблицу Subjects + редирект
+    # создать предмет
 def post_subject(request, user_id: int, subject_name: str):
     subject_model.objects.create(user_id=user_id, subject_name=subject_name, num_weeks=0, num_lessons=0)
     return render(request, 'subjects')
@@ -92,7 +98,7 @@ def update_subject(subject_id: int, subject_name: str):
     subject = subject_model.objects.get(id=subject_id)
     subject.subject_name = subject_name
     subject.save()
-    return redirect('subjects')
+    return redirect('user_page.html')
     
 # delete_subject в таблице Subjects
 def delete_subject(subject_id: int):
