@@ -126,35 +126,12 @@ def apiRecomend(hours_studied : float,
     # вывод
     original_num = perceptronAPI(hours_studied, attendance, sleep_hours, physical_activity)
     # влияние сна на результат
-    sleep_coeff = 0
-    sleep_num = original_num
-    for i in range(0, 8):
-        new_coeff = 0.7 + i * 0.1
-        n_sleep_hours = original_hours_studied * new_coeff
-        new_sleep_num = perceptronAPI(hours_studied, attendance, n_sleep_hours, physical_activity)
-        if (new_sleep_num > sleep_num):
-            sleep_num = new_sleep_num
-            sleep_coeff = new_coeff
+    sleep_hours = original_hours_studied * 1.1
+    sleep_num = perceptronAPI(hours_studied, attendance, sleep_hours, physical_activity)
     # влияние физической активности на результат
-    physical_activity_coeff = 0
-    physical_activity_num = original_num
-    for i in range(0, 8):
-        new_coeff = 0.7 + i * 0.1
-        n_physical_activity = original_hours_studied * new_coeff
-        new_pa = perceptronAPI(hours_studied, attendance, sleep_hours, n_physical_activity)
-        if (new_pa > physical_activity_num):
-            physical_activity_num  = new_pa
-            physical_activity_coeff = new_coeff
+    physical_activity = original_physical_activity * 1.1 
+    physical_activity_num = perceptronAPI(hours_studied, attendance, sleep_hours, physical_activity)
     # влияние посещаемости на результат
-    att_coeff = 0
-    att_num = original_num
-    for i in range(0, 8):
-        new_coeff = 0.7 + i * 0.1
-        n_att = original_attendance * new_coeff
-        new_att = perceptronAPI(hours_studied, n_att, sleep_hours, physical_activity)
-        if (new_att > att_num):
-            att_num  = new_att
-            att_coeff = new_coeff
     attendance = original_attendance * 1.1
     attendance_num = perceptronAPI(hours_studied, attendance, sleep_hours, physical_activity)
     # влияние времени на результат
@@ -164,10 +141,19 @@ def apiRecomend(hours_studied : float,
     num = max(original_num, sleep_num, physical_activity_num, attendance_num, hours_studied_num)
     print("nums", original_attendance, original_hours_studied, original_sleep_hours, original_physical_activity)
     # сортировка по убыванию nums
-    list_nums = [[sleep_hours * sleep_coeff, "sleep_hours"], 
-                 [physical_activity * physical_activity_coeff, "physical_activity"], 
-                 [attendance * att_coeff, "attendance"], 
+    list_nums = [[sleep_num, "sleep_hours"], 
+                 [physical_activity_num, "physical_activity"], 
+                 [attendance_num, "attendance"], 
                  [hours_studied_num, "hours_studied"]]
     list_nums.sort(reverse=True)
     print("list_nums", list_nums)
     return list_nums
+    
+
+# проверка get_most_influential_param
+temp_hours_studied = 20.0
+temp_attendance = 50.0
+temp_sleep_hours = 7.0
+temp_physical_activity = 3.0
+
+print("recom", get_most_influential_param(temp_hours_studied, temp_attendance, temp_sleep_hours, temp_physical_activity))
