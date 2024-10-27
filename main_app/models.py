@@ -7,6 +7,7 @@ class subject_model(models.Model):
     subject_id = models.AutoField(primary_key=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, default = 1)
     subject_name = models.CharField(max_length=200)
+    # число, на которое рассчитыааем прогноз, не связано с числом добавленных недель
     count_weeks = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     count_lessons = models.IntegerField(default=0, validators=[MinValueValidator(0)])
 
