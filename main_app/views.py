@@ -65,19 +65,22 @@ def get_subjects(request, user_id: int):
         count_weeks_of_subject = subject.count_weeks
         count_lessons_of_subject = subject.count_lessons
 
-        result = funct(sleep_data, physical_activity_data, lessons_data, time_data, count_weeks_of_subject, count_lessons_of_subject)
+        result = print(sleep_data, physical_activity_data, lessons_data, time_data, count_weeks_of_subject, count_lessons_of_subject)
         subjects_results.append({'subject': subject, 'result': result})
-    return render(request, 'user_page.html', {'subjects': subjects})
+    
+    return render(request, 'user_page.html', {
+        'subjects': subjects,
+        'subjects_results': subjects_results})
     
     # get_weeks by subject_id из таблицы Weeks
-def get_weeks(subject_id: int):
+def get_weeks(request, subject_id: int):
     weeks = week_model.objects.filter(subject_id=subject_id)
-    return weeks
+    return render(request, 'weeks_page.html', {'weeks': weeks})
     
     # post_subject в таблицу Subjects + редирект
-def post_subject(user_id: int, subject_name: str):
+def post_subject(request, user_id: int, subject_name: str):
     subject_model.objects.create(user_id=user_id, subject_name=subject_name, num_weeks=0, num_lessons=0)
-    return redirect('subjects')
+    return render(request, 'subjects')
     
     # update_subject в таблице Subjects + редирект
 def update_subject(subject_id: int, subject_name: str):

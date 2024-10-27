@@ -29,5 +29,6 @@ urlpatterns = [
     path('update_subject/', update_subject, name='update_subject'),
     path('delete_subject/', delete_subject, name='delete_subject'),
     path('post_week/', post_week, name='post_week'),
+    path('userPrev/', user_ratePrediction, name='userSubjects'),
     path('user/', get_subjects, name='userSubjects'),
 ]
