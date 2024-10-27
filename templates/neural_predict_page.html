@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Neucha&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates&display=swap" rel="stylesheet">
     
 </head>
 <body>
@@ -42,10 +42,26 @@
         </div>
         <input type="submit" value="Рассчитать" class="button">
     </form>
-    <div class="card-res">
-        <div class="title-res">Результат</div>
-        <input type="number" value="{{data.PredictedRating}}">
-    </div>
+    <div class="card-res" id="ratingCard">
+        <div class="title-res">Прогнозируемый результат:</div>
+        <div class="title-res" id="ratingValue">{{data.PredictedRating}}</div>
+      </div>
+      
+      <script>
+        const ratingCard = document.getElementById('ratingCard');
+        const ratingValue = document.getElementById('ratingValue');
+        const rating = parseFloat(ratingValue.textContent); 
+      
+        if (rating >= 75) {
+          ratingCard.style.backgroundColor = '#4CAF50'; // Green
+        } else if (rating >= 55) {
+          ratingCard.style.backgroundColor = '#FFC107'; // Yellow
+        } else {
+          ratingCard.style.backgroundColor = '#F44336'; // Red
+        }
+      </script>
+      
+      
 </body>
 </html>
 
