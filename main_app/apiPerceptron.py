@@ -102,3 +102,49 @@ def get_graph_from_data(data : list[tuple[int, float]], b : tuple[float, float])
     
     data = imgdata.getvalue()
     return data
+
+
+# ищем наиболее влияющий на результат параметр
+# для этого изменяем существующие на определенный процент и смотрим на результат в sigmoid
+def get_most_influential_param(hours_studied : float, 
+                               attendance : float, 
+                               sleep_hours : float, 
+                               physical_activity : float) -> str:
+    original_hours_studied = hours_studied
+    original_attendance = attendance
+    original_sleep_hours = sleep_hours
+    original_physical_activity = physical_activity
+    # вывод
+    original_num = perceptronAPI(hours_studied, attendance, sleep_hours, physical_activity)
+    # влияние сна на результат
+    sleep_hours = abs(7 - original_hours_studied * 1.1) / 3
+    sleep_num = perceptronAPI(hours_studied, attendance, sleep_hours, physical_activity)
+    # влияние физической активности на результат
+    physical_activity = original_physical_activity * 1.1 / 6
+    physical_activity_num = perceptronAPI(hours_studied, attendance, sleep_hours, physical_activity)
+    # влияние посещаемости на результат
+    attendance = original_attendance * 1.1
+    attendance_num = perceptronAPI(hours_studied, attendance, sleep_hours, physical_activity)
+    # влияние времени на результат
+    hours_studied = original_hours_studied * 1.1 / 44
+    hours_studied_num = perceptronAPI(hours_studied, attendance, sleep_hours, physical_activity)
+    # наиболее влияющий параметр
+    num = max(original_num, sleep_num, physical_activity_num, attendance_num, hours_studied_num)
+    print("nums", original_attendance, original_hours_studied, original_sleep_hours, original_physical_activity)
+    # сортировка по убыванию nums
+    list_nums = [[sleep_num, "sleep_hours"], 
+                 [physical_activity_num, "physical_activity"], 
+                 [attendance_num, "attendance"], 
+                 [hours_studied_num, "hours_studied"]]
+    list_nums.sort(reverse=True)
+    print("list_nums", list_nums)
+    return list_nums[0][1]
+    
+
+# проверка get_most_influential_param
+temp_hours_studied = 20.0
+temp_attendance = 50.0
+temp_sleep_hours = 7.0
+temp_physical_activity = 3.0
+
+print("recom", get_most_influential_param(temp_hours_studied, temp_attendance, temp_sleep_hours, temp_physical_activity))
