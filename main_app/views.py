@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from main_app.apiPerceptron import perceptronAPI
+from main_app.apiPerceptron import perceptronAPI, get_result_for_subject
 from main_app.models import subject_model, week_model
 
 #Функция, производящая расчет прогнозируемой оценки при помощи обученного парцептрона
@@ -7,7 +7,9 @@ def neuralCalc(attendance, hours_studied, sleep_hours,
     physical_activity, home_distance):
     PredictedRating =  perceptronAPI(int(hours_studied), int(attendance), int(sleep_hours), int(physical_activity), home_distance)
     return PredictedRating
-# Create your views here.
+
+
+# Главная страница
 def ratePrediction(request):
     attendance = request.GET.get('attendance','')
     print(attendance)
@@ -53,11 +55,13 @@ def user_ratePrediction(request):
 
     # get_sugjects by user_id из таблицы Subjects 
     # TODO
-def get_subjects(request, user_id: int):
-    subjects = subject_model.objects.filter(user_id=user_id)
+    
+# страница предметов
+def get_subjects(request, id: int):
+    subjects = subject_model.objects.filter(user_id=id)
     subjects_results = []
     for subject in subjects:
-        weeks_data = week_model.objects.filter(subject=subject.id).all()
+        weeks_data = week_model.objects.filter(subject=subject).all()
         sleep_data = [(x.week_num, x.avg_sleep) for x in weeks_data]
         physical_activity_data = [(x.week_num, x.avg_phys_activity) for x in weeks_data]
         lessons_data = [(x.week_num, x.lessons_visited) for x in weeks_data]
@@ -65,7 +69,8 @@ def get_subjects(request, user_id: int):
         count_weeks_of_subject = subject.count_weeks
         count_lessons_of_subject = subject.count_lessons
 
-        result = print(sleep_data, physical_activity_data, lessons_data, time_data, count_weeks_of_subject, count_lessons_of_subject)
+        result = get_result_for_subject(sleep_data, physical_activity_data, lessons_data, time_data, count_weeks_of_subject, count_lessons_of_subject)
+        print("111" + str(result))
         subjects_results.append({'subject': subject, 'result': result})
     
     return render(request, 'user_page.html', {

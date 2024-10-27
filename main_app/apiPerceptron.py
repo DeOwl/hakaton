@@ -9,11 +9,10 @@ def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
 def num_to_range(num, inMin, inMax, outMin, outMax):
-    print(num)
     return outMin + (float(num - inMin) / float(inMax - inMin) * (outMax
                   - outMin))
 
-
+#расчет резултата по числам
 def perceptronAPI(hours_studied : float, 
                   attendance : float, 
                   sleep_hours : float, 
@@ -27,7 +26,6 @@ def perceptronAPI(hours_studied : float,
     attendance = attendance
     sleep_hours = abs(7 - sleep_hours) / 3
     physical_activity = physical_activity / 6
-    print(num_to_range(70, 40, 80, 20, 100))
     # вывод
     num = sigmoid(np.dot(np.array([
         [hours_studied,
