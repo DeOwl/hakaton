@@ -4,9 +4,10 @@
     <a href = "/" style ="width: 10vw;">
       <img src = "{% static 'logo.png' %}" style="height: 10vh; margin-top:1.5vh; margin-bottom:1.5vh;  margin-left:3vw">
     </a>
-    <div class="app_name"  style="margin-top:2vh; margin-left: auto; margin-right: auto;">Анализ успеваемости</div>
-    <a href = "user/" style ="width: 10vw;">
+    <div class="app_name"  style="margin-top:2vh; margin-left: auto; margin-right: auto;">{{ app_title }}</div>
+    <a href = "auth/" style ="width: 10vw;">
         <img src = "{% static 'logo.png' %}" style="height: 10vh; margin-top:1.5vh; margin-bottom:1.5vh;  margin-right:3vw">
     </a>
 </div>
 {% endblock %}
+

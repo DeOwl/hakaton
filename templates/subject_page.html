@@ -1,5 +1,5 @@
 {% load static %}
-{% include 'header.html' with app_title='Мои предметы'%}
+{% include 'header.html' with app_title='Предмет 1' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,38 +16,17 @@
 <body>
   <form action="." method="GET" style="display: flex; justify-content: center; align-items: center;">
     <div class="container-sub">
-      
-      <div class="card-sub">
-        <div style="display: flex; align-items: center;"> 
-                <input style="margin-left: 10px;" class="title-res" type="text" placeholder="Предмет">
-                <input class="sub-des" class="title-res" type="number" placeholder="Количество пар">
-            <input style="background-color: #264653;  margin-left: 80px;" type="submit" value="Добавить предмет" class="button">
-        </div>
-    </div>    
       <div class="card-sub">
           <div style="display: flex; align-items: center;"> 
               <div style="margin-left: 10px;"class="title-res">Предмет 1</div> 
               <div class="sub-des">Пар: 18</div> 
               <div class="sub-des">Недель: 7</div> 
-              <a href = "{% url 'weeks' %}">
-                <input style="background-color: #264653;  margin-left: 100px;" type="submit" value="Cтатистика" class="button">
-              </a>
-              
+              <input style="background-color: #264653;  margin-left: 100px;" type="submit" value="Cтатистика" class="button">
               <div style="background-color: #4FBF9F; height: 50px; width: 50px; margin-left: 100px;" class="card-res" id="ratingCard">
                   <div class="title-res" id="ratingValue">{{ data.PredictedRating }}</div>
               </div>
           </div>
       </div>
-      <div class="card-sub">
-        <div style="display: flex; align-items: center;"> 
-            <div style="margin-left: 10px;"class="title-res">Предмет 2</div> 
-            <div class="sub-des">Пар: 36</div> 
-            <div class="sub-des">Недель: 5</div> 
-            <input style="background-color: #264653;  margin-left: 100px;" type="submit" value="Cтатистика" class="button">
-            <div style="background-color: #4FBF9F; height: 50px; width: 50px; margin-left: 100px;" class="card-res" id="ratingCard">
-                <div class="title-res" id="ratingValue">{{ data.PredictedRating }}</div>
-            </div>
-        </div>
     </div>
   </div>
 </form>
@@ -66,6 +45,3 @@
       </script>
 </body>
 </html>
-
-
-

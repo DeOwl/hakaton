@@ -1,3 +1,18 @@
+
+from django.shortcuts import render
+from main_app.apiPerceptron import perceptronAPI
+from django.shortcuts import render
+
+def sub_view(request):
+    context = {
+        'app_title': 'Анализ успеваемости',
+        'app_title': 'Авторизация', 
+        'app_title': 'Мои предметы',
+        'app_title': 'Предмет 1' 
+    }
+    return render(request, 'sub.html', context)
+
+from main_app.apiPerceptron import perceptronAPI, get_result_for_subject
 from django.shortcuts import render, redirect
 from main_app.apiPerceptron import perceptronAPI, get_result_for_subject, get_graph_from_data
 from main_app.models import subject_model, week_model
@@ -28,6 +43,16 @@ def ratePrediction(request):
     data = {'data':{'PredictedRating':PredictedRating, 'attendance':attendance, 'hours_studied':hours_studied, 'sleep_hours':sleep_hours, 
     'physical_activity':physical_activity}}
     return render(request, 'neural_predict_page.html', data)
+
+
+def reg_ratePrediction(request):
+    return render(request, 'reg.html')
+def auth_ratePrediction(request):
+    return render(request, 'auth.html')
+def user_ratePrediction(request):
+    return render(request, 'user_page.html')
+def sub_ratePrediction(request):
+    return render(request, 'sub.html')    
 
 
 def user_ratePrediction(request):
@@ -130,16 +155,6 @@ def update_week(week_id: int, week_name: str, week_number: int, avg_sleep_hours:
     # удалить неделю с редиректом на предмет
 def delete_week(week_id: int):
     week_model.objects.get(id=week_id).delete()
+    week_model.objects.get(id=week_id).delete()
     return redirect('subject_page.html')
 
-    
-    
-
-    
-
-
-
-
-
-
-                  
