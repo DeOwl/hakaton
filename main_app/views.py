@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from main_app.apiPerceptron import perceptronAPI
+from main_app.models import subject_model, week_model
 
 #Функция, производящая расчет прогнозируемой оценки при помощи обученного парцептрона
 def neuralCalc(attendance, hours_studied, sleep_hours, 
@@ -52,66 +53,74 @@ def user_ratePrediction(request):
 
     # get_sugjects by user_id из таблицы Subjects 
     # TODO
-    def get_subjects(user_id: int):
-        subjects = Subjects.objects.filter(user_id=user_id)
-        subjects_results = []
-        for subject in subjects:
-            result = 0
-            subjects_results.append({'subject': subject, 'weeks': weeks})
-        return render(request, 'user_page.html', {'subjects': subjects})
+def get_subjects(request, user_id: int):
+    subjects = subject_model.objects.filter(user_id=user_id)
+    subjects_results = []
+    for subject in subjects:
+        weeks_data = week_model.objects.filter(subject=subject.id).all()
+        sleep_data = [(x.week_num, x.avg_sleep) for x in weeks_data]
+        physical_activity_data = [(x.week_num, x.avg_phys_activity) for x in weeks_data]
+        lessons_data = [(x.week_num, x.lessons_visited) for x in weeks_data]
+        time_data = [(x.week_num, x.time_spent) for x in weeks_data]
+        count_weeks_of_subject = subject.count_weeks
+        count_lessons_of_subject = subject.count_lessons
+
+        result = funct(sleep_data, physical_activity_data, lessons_data, time_data, count_weeks_of_subject, count_lessons_of_subject)
+        subjects_results.append({'subject': subject, 'result': result})
+    return render(request, 'user_page.html', {'subjects': subjects})
     
     # get_weeks by subject_id из таблицы Weeks
-    def get_weeks(subject_id: int):
-        weeks = Weeks.objects.filter(subject_id=subject_id)
-        return weeks
+def get_weeks(subject_id: int):
+    weeks = week_model.objects.filter(subject_id=subject_id)
+    return weeks
     
     # post_subject в таблицу Subjects + редирект
-    def post_subject(user_id: int, subject_name: str):
-        Subjects.objects.create(user_id=user_id, subject_name=subject_name, num_weeks=0, num_lessons=0)
-        return redirect('subjects')
+def post_subject(user_id: int, subject_name: str):
+    subject_model.objects.create(user_id=user_id, subject_name=subject_name, num_weeks=0, num_lessons=0)
+    return redirect('subjects')
     
     # update_subject в таблице Subjects + редирект
-    def update_subject(subject_id: int, subject_name: str):
-        subject = Subjects.objects.get(id=subject_id)
-        subject.subject_name = subject_name
-        subject.save()
-        return redirect('subjects')
+def update_subject(subject_id: int, subject_name: str):
+    subject = subject_model.objects.get(id=subject_id)
+    subject.subject_name = subject_name
+    subject.save()
+    return redirect('subjects')
     
-    # delete_subject в таблице Subjects
-    def delete_subject(subject_id: int):
-        Weeks.objects.filter(subject_id=subject_id).delete()
-        Subjects.objects.get(id=subject_id).delete()
+# delete_subject в таблице Subjects
+def delete_subject(subject_id: int):
+    week_model.objects.filter(subject_id=subject_id).delete()
+    subject_model.objects.get(id=subject_id).delete()
         
 
-    # post_week в таблицу Weeks + редирект
-    def post_week(subject_id: int, 
-                  week_name: str,
-                  week_number: int,
-                  avg_sleep_hours: int,
-                  avg_physical_activity: int, 
-                  lessons_visited: int,
-                  time_spent: int):
-        Weeks.objects.create(subject_id=subject_id, week_name=week_name, 
-                             week_number=week_number, avg_sleep_hours=avg_sleep_hours, 
-                             avg_physical_activity=avg_physical_activity, lessons_visited=lessons_visited, 
-                             time_spent=time_spent)
-        return redirect('weeks')
+# post_week в таблицу Weeks + редирект
+def post_week(subject_id: int, 
+              week_name: str,
+              week_number: int,
+              avg_sleep_hours: int,
+              avg_physical_activity: int, 
+              lessons_visited: int,
+              time_spent: int):
+    week_model.objects.create(subject_id=subject_id, week_name=week_name, 
+                    week_number=week_number, avg_sleep_hours=avg_sleep_hours, 
+                    avg_physical_activity=avg_physical_activity, lessons_visited=lessons_visited, 
+                    time_spent=time_spent)
+    return redirect('weeks')
     
     # update_week в таблице Weeks + редирект
-    def update_week(week_id: int, week_name: str, week_number: int, avg_sleep_hours: int, avg_physical_activity: int, lessons_visited: int, time_spent: int):
-        week = Weeks.objects.get(id=week_id)
-        week.week_name = week_name
-        week.week_number = week_number
-        week.avg_sleep_hours = avg_sleep_hours
-        week.avg_physical_activity = avg_physical_activity
-        week.lessons_visited = lessons_visited
-        week.time_spent = time_spent
-        week.save()
-        return redirect('weeks')
+def update_week(week_id: int, week_name: str, week_number: int, avg_sleep_hours: int, avg_physical_activity: int, lessons_visited: int, time_spent: int):
+    week = week_model.objects.get(id=week_id)
+    week.week_name = week_name
+    week.week_number = week_number
+    week.avg_sleep_hours = avg_sleep_hours
+    week.avg_physical_activity = avg_physical_activity
+    week.lessons_visited = lessons_visited
+    week.time_spent = time_spent
+    week.save()
+    return redirect('weeks')
     
     # delete_week в таблице Weeks
-    def delete_week(week_id: int):
-        Weeks.objects.get(id=week_id).delete()
+def delete_week(week_id: int):
+    week_model.objects.get(id=week_id).delete()
 
     
     

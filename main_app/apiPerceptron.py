@@ -41,7 +41,7 @@ def perceptronAPI(hours_studied : int,
     return int(num_to_range(num, 0, 75, 0, 100))
 
 
-
+# вход: неделя + число, выход - коэфы прямой
 def get_linear_nums(data : list[tuple[int, float]]) -> tuple[float, float]:
     
     n = len(data)
