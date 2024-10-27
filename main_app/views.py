@@ -4,8 +4,8 @@ from main_app.models import subject_model, week_model
 
 #Функция, производящая расчет прогнозируемой оценки при помощи обученного парцептрона
 def neuralCalc(attendance, hours_studied, sleep_hours, 
-    physical_activity, home_distance):
-    PredictedRating =  perceptronAPI(int(hours_studied), int(attendance), int(sleep_hours), int(physical_activity), home_distance)
+    physical_activity):
+    PredictedRating =  perceptronAPI(int(hours_studied), int(attendance), int(sleep_hours), int(physical_activity))
     return PredictedRating
 
 
@@ -19,16 +19,14 @@ def ratePrediction(request):
     print(sleep_hours)
     physical_activity = request.GET.get('physical_activity','')
     print(physical_activity)
-    home_distance = request.GET.get('home_distance','')
-    print(home_distance)
-    if attendance != "" and hours_studied != "" and sleep_hours != "" and physical_activity != "" and home_distance != "":
+    if attendance != "" and hours_studied != "" and sleep_hours != "" and physical_activity != "":
         
-        PredictedRating = neuralCalc(attendance, hours_studied, sleep_hours, 
-        physical_activity, home_distance)
+        PredictedRating = neuralCalc(int(attendance) / 100, hours_studied, sleep_hours, 
+        physical_activity)
     else:
         PredictedRating = ""
     data = {'data':{'PredictedRating':PredictedRating, 'attendance':attendance, 'hours_studied':hours_studied, 'sleep_hours':sleep_hours, 
-    'physical_activity':physical_activity, 'home_distance':home_distance}}
+    'physical_activity':physical_activity}}
     return render(request, 'neural_predict_page.html', data)
 
 
@@ -43,8 +41,7 @@ def user_ratePrediction(request):
     print(physical_activity)
     if attendance != "" and hours_studied != "" and sleep_hours != "" and physical_activity != "":
         
-        PredictedRating = neuralCalc(attendance, hours_studied, sleep_hours, 
-        physical_activity, home_distance)
+        PredictedRating = neuralCalc(attendance, hours_studied, sleep_hours, physical_activity)
     else:
         PredictedRating = ""
     data = {'data':{'PredictedRating':PredictedRating, 'attendance':attendance, 'hours_studied':hours_studied, 'sleep_hours':sleep_hours, 
